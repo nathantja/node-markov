@@ -1,3 +1,4 @@
+"use strict";
 /** Textual markov chain generator. */
 
 
@@ -15,7 +16,7 @@ class MarkovMachine {
   /** Get markov chain: returns object of Markov chains.
    *
    *  For text of "The cat in the hat.", chains will be:
-   * 
+   *
    *  {
    *   "The": ["cat"],
    *   "cat": ["in"],
@@ -23,11 +24,20 @@ class MarkovMachine {
    *   "the": ["hat."],
    *   "hat.": [null],
    *  }
-   * 
+   *
    * */
-
   getChains() {
-    // TODO: implement this!
+    const chains = {};
+
+    for (let i = 0; i < this.words.length; i++) {
+      let currWord = this.words[i];
+      let nextWord = this.words[i + 1] || null;
+
+      chains[currWord] = chains[currWord] || [];
+      chains[currWord].push(nextWord);
+    }
+
+    return chains;
   }
 
 
@@ -35,10 +45,30 @@ class MarkovMachine {
    *  until it hits a null choice. */
 
   getText() {
-    // TODO: implement this!
 
-    // - start at the first word in the input text
-    // - find a random word from the following-words of that
-    // - repeat until reaching the terminal null
+    let text = [];
+    text.push(this.words[0]);
+
+    let notNull = true;
+
+    while (notNull === true) {
+      let prevWord = text[text.length - 1];
+      let randomIdx = Math.floor(Math.random() * this.chains[prevWord].length);
+      let nextWord = this.chains[prevWord][randomIdx];
+
+      if (nextWord === null) {
+        notNull = false;
+
+        return text.join(" ");
+
+      } else {
+        text.push(nextWord);
+      }
+    }
   }
 }
+
+
+module.exports = {
+  MarkovMachine,
+};
