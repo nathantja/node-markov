@@ -43,28 +43,28 @@ class MarkovMachine {
 
   /** Return random text from chains, starting at the first word and continuing
    *  until it hits a null choice. */
-
   getText() {
-
-    let text = [];
+    const text = [];
     text.push(this.words[0]);
 
+    // TODO: could refactor - look to actual null value for source of truth
     let notNull = true;
 
     while (notNull === true) {
-      let prevWord = text[text.length - 1];
-      let randomIdx = Math.floor(Math.random() * this.chains[prevWord].length);
-      let nextWord = this.chains[prevWord][randomIdx];
+      const prevWord = text[text.length - 1];
+
+      //TODO: could refactor - functional decomposition for testing
+      const randomIdx = Math.floor(Math.random() * this.chains[prevWord].length);
+      const nextWord = this.chains[prevWord][randomIdx];
 
       if (nextWord === null) {
         notNull = false;
-
-        return text.join(" ");
-
       } else {
         text.push(nextWord);
       }
     }
+
+    return text.join(" ");
   }
 }
 
