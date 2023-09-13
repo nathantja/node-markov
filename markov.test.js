@@ -43,7 +43,7 @@ describe("chains property", function () {
 
 /** Test getText for a MarkovMachine with branches and without branches. */
 describe("getText method", function () {
-
+// generates valid text for input with 1 possibility
   test("text with no branches", function () {
     expect(MACHINE_NO_BRANCH.getText()).toEqual("The cat in the hat.");
   });
